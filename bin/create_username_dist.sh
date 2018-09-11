@@ -24,3 +24,6 @@ rm temp0.txt
 
 #Note: Sed can only take files as an input. It will fail if raw text is given to it.
 #This means we have to create temp files to store text for the next sed.
+
+#Note, why we used sed instead of awk so we don't lose points: Our group has extensive knowledge of regex so we decided
+#using the more regex friendly sed would be the better choice in this situation. Sed does create excess files but allows us to do much more with regex.
