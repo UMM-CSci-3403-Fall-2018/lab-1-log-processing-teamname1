@@ -18,7 +18,7 @@ sed -nr "s/([^[:space:]]+) ([[:alnum:]]+)/\2/gp" < temp1.txt | sort | uniq -c > 
 sed -nr "s/([[:space:]]*)([[:alnum:]]+) ([[:alnum:]]+)/data.addRow(['\3', \2]);/gp" < temp2.txt > temp3.html
 
 #combines username_dist_header.html, the temp file with all of our formatted data, and username_dist_footer.html
-cat $here/html_components/country_dist_header.html temp3.html $here/html_components/country_dist_footer.html > username_dist.html
+cat $here/html_components/country_dist_header.html temp3.html $here/html_components/country_dist_footer.html > country_dist.html
 
 #deletes temp files
 rm temp3.html
