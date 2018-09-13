@@ -8,7 +8,7 @@ cd $1
 cat ./*/failed_login_data.txt > temp0.txt
 
 #this sed takes all the names in temp0.txt, ignoring the rest of the data, sorts it, counts each name using uniq and puts it into temp.txt
-sed -nr "s/([[:alnum:]]+) ([[:alnum:]]+) ([[:alnum:]]+) ([[:alnum:]]+) ([^[:space:]]+)/\5/gp" < temp0.txt | sort > temp.txt
+sed -nr "s/([[:alnum:]]+) ([[:alnum:]]+) ([[:alnum:]]+) ([-_[:alnum:]]+) ([^[:space:]]+)/\5/gp" < temp0.txt | sort > temp.txt
 
 join temp.txt $here/etc/country_IP_map.txt > temp1.txt
 
