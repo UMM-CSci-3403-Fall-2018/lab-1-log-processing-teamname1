@@ -1,4 +1,5 @@
 #!/bin/bash
+#storing the starting location
 here=$(pwd)
 
 #cd into the desired directory
