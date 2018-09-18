@@ -4,7 +4,7 @@ here=$(pwd)
 #cd into the desired directory
 cd $1
 
-#this combines all of the failed_login_data.txt files into one temp file 
+#this combines all of the failed_login_data.txt files 
 cat ./*/failed_login_data.txt |\
 
 #this sed takes all the ip addresses from all the failed_login.txt files and sorts them
