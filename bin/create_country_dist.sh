@@ -16,7 +16,7 @@ join - $here/etc/country_IP_map.txt |\
 sed -nr "s/([^[:space:]]+) ([[:alnum:]]+)/\2/gp" | sort | uniq -c |\
 #this sed parses the count and country codes, puts them into the desired format, and puts them into temp.html
 sed -nr "s/([[:space:]]*)([[:alnum:]]+) ([[:alnum:]]+)/data.addRow(['\3', \2]);/gp" > temp.html
-#combines username_dist_header.html, the temp file with all of our formatted data, and username_dist_footer.html
+#combines country_dist_header.html, the temp file with all of our formatted data, and country_dist_footer.html
 $here/bin/wrap_contents.sh temp.html $here/html_components/country_dist country_dist.html
 
 #deletes temp files
