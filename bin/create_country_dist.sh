@@ -5,30 +5,21 @@ here=$(pwd)
 cd $1
 
 #this combines all of the failed_login_data.txt files into one temp file 
-cat ./*/failed_login_data.txt > temp0.txt
+cat ./*/failed_login_data.txt |\
 
-#this sed takes all the names in temp0.txt, ignoring the rest of the data, sorts it, counts each name using uniq and puts it into temp.txt
-sed -nr "s/([[:alnum:]]+) ([[:alnum:]]+) ([[:alnum:]]+) ([-_[:alnum:]]+) ([^[:space:]]+)/\5/gp" < temp0.txt | sort > temp.txt
-
-join temp.txt $here/etc/country_IP_map.txt > temp1.txt
-
-sed -nr "s/([^[:space:]]+) ([[:alnum:]]+)/\2/gp" < temp1.txt | sort | uniq -c > temp2.txt
-
-#this sed parses the count and names from temp.txt, putting them in the desired format, and puts them in temp1.html
-sed -nr "s/([[:space:]]*)([[:alnum:]]+) ([[:alnum:]]+)/data.addRow(['\3', \2]);/gp" < temp2.txt > temp3.html
-
+#this sed takes all the ip addresses from all the failed_login.txt files and sorts them
+sed -nr "s/([[:alnum:]]+) ([[:alnum:]]+) ([[:alnum:]]+) ([-_[:alnum:]]+) ([^[:space:]]+)/\5/gp" | sort |\
+#this joins the country_IP_map.txt file to the list of ip addresses which adds the country id after the ip address
+join - $here/etc/country_IP_map.txt |\
+#this sed takes the list of ip addresses and country ids and takes out only the country ids, sorts them, and counts them
+sed -nr "s/([^[:space:]]+) ([[:alnum:]]+)/\2/gp" | sort | uniq -c |\
+#this sed parses the count and country codes, puts them into the desired format, and puts them into temp.html
+sed -nr "s/([[:space:]]*)([[:alnum:]]+) ([[:alnum:]]+)/data.addRow(['\3', \2]);/gp" > temp.html
 #combines username_dist_header.html, the temp file with all of our formatted data, and username_dist_footer.html
-cat $here/html_components/country_dist_header.html temp3.html $here/html_components/country_dist_footer.html > country_dist.html
+$here/bin/wrap_contents.sh temp.html $here/html_components/country_dist country_dist.html
 
 #deletes temp files
-rm temp3.html
-rm temp2.txt
-rm temp1.txt
-rm temp.txt
-rm temp0.txt
-
-#Note: Sed can only take files as an input. It will fail if raw text is given to it.
-#This means we have to create temp files to store text for the next sed.
+rm temp.html
 
 #Note, why we used sed instead of awk so we don't lose points: Our group has extensive knowledge of regex so we decided
-#using the more regex friendly sed would be the better choice in this situation. Sed does create excess files but allows us to do much more with regex.
+#using the more regex friendly sed would be the better choice in this situation.
